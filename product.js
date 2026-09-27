@@ -32,6 +32,8 @@ async function loadProducts() {
     const response = await fetch("https://dummyjson.com/products?limit=12");
     const data = await response.json();
 
+    allProducts = data.products;
+
     productContainer.innerHTML = ""; 
     data.products.forEach((product) => {
       const productCard = document.createElement("div");
@@ -50,7 +52,6 @@ async function loadProducts() {
   }
 }
 
-/* checkAuth(); */
 loadProducts();
 
 const searchInput = document.getElementById("searchInput");
@@ -87,18 +88,55 @@ function addToCart(id) {
     }
 }
 
+// Modal untuk detail produk
+const modal = document.getElementById("productModal");
+const closeModal = document.getElementById("closeModal");
+const modalBody = document.getElementById("modalBody");
+
 // Event listener untuk tombol "Tambah ke Keranjang"
 productContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("add-to-cart")) {
-    const productId = e.target.getAttribute("data-id");
+    const productId = parseInt(e.target.getAttribute("data-id"));
     console.log("ID Produk yang diklik:", productId);
     addToCart(productId);
   }
+  else if (e.target.classList.contains("detail-btn")) {
+        const productId = parseInt(e.target.getAttribute("data-id"));
+        showModal(productId);
+    }
 });
 
-fetchProducts();
+function showModal(id) {
+    const product = allProducts.find(p => p.id === id);
+    if (!product) return;
 
-const logoutBtn = document.getElementById("logoutBtn");
-logoutBtn.addEventListener("click", () => {
-  console.log("Tombol logout ditekan");
+    modalBody.innerHTML = `
+        <h2 style="font-size: 18px; margin-bottom: 10px;">${product.title}</h2>
+        <img src="${product.thumbnail}" style="width:100%; max-height:200px; object-fit:contain; margin-bottom:15px;">
+        <p><strong>Brand:</strong> ${product.brand || 'N/A'}</p>
+        <p><strong>Stok Tersedia:</strong> ${product.stock}</p>
+        <p><strong>Kategori:</strong> ${product.category}</p>
+        <p><strong>Harga:</strong> $${product.price}</p>
+        <p style="margin-top: 10px; font-size: 13px;">${product.description}</p>
+        <button class="add-to-cart" data-id="${product.id}" style="margin-top: 20px;">Tambah ke Keranjang</button>
+    `;
+    modal.classList.remove("hidden");
+}
+
+// Event Delegation dalam Modal jika user klik beli di dalam modal
+modalBody.addEventListener("click", (e) => {
+    if (e.target.classList.contains("add-to-cart")) {
+        const productId = parseInt(e.target.getAttribute("data-id"));
+        addToCart(productId);
+        modal.classList.add("hidden");
+    }
 });
+
+// Tutup Modal
+closeModal.addEventListener("click", () => modal.classList.add("hidden"));
+window.addEventListener("click", (e) => {
+    if (e.target === modal) modal.classList.add("hidden");
+});
+
+
+loadProducts();
