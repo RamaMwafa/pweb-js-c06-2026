@@ -2,7 +2,7 @@ function checkAuth() {
   const userStorage = localStorage.getItem("user");
 
   if (!userStorage) {
-    window.location.href = "login.html";
+    window.location.href = "index.html";
   } else {
     const userData = JSON.parse(userStorage);
     const namaPengguna = userData.username || "Pengguna";
@@ -35,7 +35,7 @@ async function loadProducts() {
   }
 }
 
-/* checkAuth(); */
+checkAuth(); 
 loadProducts();
 
 const searchInput = document.getElementById("searchInput");
