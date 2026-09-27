@@ -50,6 +50,7 @@ async function loadProducts() {
   }
 }
 
+/* checkAuth(); */
 loadProducts();
 
 const searchInput = document.getElementById("searchInput");
