@@ -104,3 +104,53 @@ Button:hover {
     margin-top: 25px;
     font-size: 14px;
 }
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: rgba(43, 85, 133, 0.9);
+    color: white;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.logout-btn {
+    background-color: #edf4f5;
+    border: none;
+    color: rgb(94, 65, 65);
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background-color: #9bb3de;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: rgba(42, 85, 147, 0.95);    
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.search-bar, .filter-dropdown {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+}
+.search-bar { width: 300px; }
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}

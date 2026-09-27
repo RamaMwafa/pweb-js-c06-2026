@@ -1,18 +1,33 @@
+// Cek autentikasi pengguna
 function checkAuth() {
   const userStorage = localStorage.getItem("user");
 
   if (!userStorage) {
-    window.location.href = "login.html";
+    window.location.href = "index.html";
   } else {
     const userData = JSON.parse(userStorage);
     const namaPengguna = userData.username || "Pengguna";
     document.getElementById("welcomeMessage").innerText = `Selamat datang, ${namaPengguna}!`;
   }
 }
+// checkAuth(); 
 
+// Logout
+document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem("user");
+    window.location.href = "index.html";
+});
+
+// State Management
+let allProducts = [];
+let filteredProducts = [];
+let currentIndex = 0;
+const itemsPerPage = 12; // Untuk limit dan load more (Array Slicing)
+
+const productContainer = document.getElementById("productContainer");
+
+// Fetch data produk dari API
 async function loadProducts() {
-  const productContainer = document.getElementById("productContainer");
-
   try {
     const response = await fetch("https://dummyjson.com/products?limit=12");
     const data = await response.json();
@@ -35,7 +50,6 @@ async function loadProducts() {
   }
 }
 
-/* checkAuth(); */
 loadProducts();
 
 const searchInput = document.getElementById("searchInput");
@@ -44,14 +58,44 @@ searchInput.addEventListener("input", (e) => {
   console.log("Kata kunci pencarian:", keyword);
 });
 
-const productContainer = document.getElementById("productContainer");
+// Fungsi untuk mendapatkan keranjang dari localStorage
+function getCart() {
+    return JSON.parse(localStorage.getItem("cart")) || [];
+}
+
+// Fungsi untuk menyimpan keranjang ke localStorage
+function saveCart(cart) {
+    localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+// Fungsi untuk menambahkan produk ke keranjang
+function addToCart(id) {
+    const product = allProducts.find(p => p.id === id);
+    if (product) {
+        const cart = getCart();
+        const existingItem = cart.find(item => item.id === id);
+        
+        if (existingItem) {
+            existingItem.quantity += 1; // Update (CRUD)
+        } else {
+            cart.push({ id: product.id, title: product.title, price: product.price, quantity: 1 }); // Create
+        }
+        
+        saveCart(cart);
+        alert(`"${product.title}" berhasil ditambahkan ke keranjang!`);
+    }
+}
+
+// Event listener untuk tombol "Tambah ke Keranjang"
 productContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("add-to-cart")) {
     const productId = e.target.getAttribute("data-id");
     console.log("ID Produk yang diklik:", productId);
-    alert("Fitur tambah ke keranjang sedang dikerjakan oleh rekanku!");
+    addToCart(productId);
   }
 });
+
+fetchProducts();
 
 const logoutBtn = document.getElementById("logoutBtn");
 logoutBtn.addEventListener("click", () => {
