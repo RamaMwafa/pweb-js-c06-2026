@@ -4,20 +4,168 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Katalog Produk</title>
-    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* Background menyerupai ombak/gradasi biru pada halaman login */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #9baec4 0%, #617b99 40%, #7690af 100%);
+        background-attachment: fixed;
+        color: #ffffff;
+      }
+
+      /* Navigation Bar - Dibuat semi transparan menyatu dengan tema */
+      .navbar {
+        background-color: rgba(69, 100, 137, 0.85);
+        backdrop-filter: blur(10px);
+        color: white;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .navbar h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+      }
+
+      /* Logout Button - Pill shape, putih dengan teks biru (seperti tombol Login) */
+      .logout-btn {
+        background-color: #ffffff;
+        color: #1c3b63;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+      }
+
+      .logout-btn:hover {
+        background-color: #e2e6ea;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      }
+
+      .container {
+        padding: 30px 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Search Bar - Pill shape, transparan dengan border putih */
+      .search-container {
+        margin-bottom: 30px;
+        text-align: right;
+      }
+
+      .search-bar {
+        width: 100%;
+        max-width: 320px;
+        padding: 12px 20px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        border-radius: 25px;
+        color: #ffffff;
+        outline: none;
+        transition: border 0.3s ease;
+      }
+
+      .search-bar::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .search-bar:focus {
+        border-color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      /* Product Grid */
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 25px;
+      }
+
+      /* Product Card - Mengikuti desain box login */
+      .product-card {
+        background-color: rgba(73, 103, 141, 0.85);
+        backdrop-filter: blur(8px);
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+
+      .product-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .product-image {
+        max-width: 100%;
+        height: 150px;
+        object-fit: contain;
+        margin-bottom: 15px;
+        background-color: rgba(255, 255, 255, 0.9); /* Background putih agar produk terlihat jelas */
+        border-radius: 8px;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+
+      .product-title {
+        font-size: 16px;
+        margin-bottom: 10px;
+        color: #ffffff;
+      }
+
+      .product-price {
+        font-weight: bold;
+        color: #ffffff;
+        margin: 10px 0 20px 0;
+        font-size: 18px;
+      }
+
+      /* Add to Cart Button - Meniru tombol Login */
+      .add-to-cart {
+        background-color: #ffffff;
+        color: #1d406d;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        cursor: pointer;
+        border-radius: 25px;
+        font-weight: bold;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .add-to-cart:hover {
+        background-color: #e2e6ea;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+      }
+    </style>
   </head>
   <body>
-  
+    <!-- Navigation Bar -->
     <nav class="navbar">
-      <h2 id="welcomeMessage">Memuat...</h2>
+      <h2 id="welcomeMessage">Welcome to Mini Shopee</h2>
       <button id="logoutBtn" class="logout-btn">Logout</button>
     </nav>
 
     <div class="container">
+      <!-- Search Bar -->
       <div class="search-container">
         <input type="text" id="searchInput" class="search-bar" placeholder="Cari produk di sini..." />
       </div>
 
+      <!-- Tempat Produk Dirender -->
       <div id="productContainer" class="product-grid">
       </div>
     </div>
