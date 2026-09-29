@@ -33,7 +33,7 @@ loginForm.addEventListener("submit", async function(event) {
             localStorage.setItem(
                 "firstName", userada.firstName
             );
-            window.location.href = "products.html";
+            window.location.href = "catalog.html";
         }else{
             errorMessage.textContent = "Username atau password salah";
         }
